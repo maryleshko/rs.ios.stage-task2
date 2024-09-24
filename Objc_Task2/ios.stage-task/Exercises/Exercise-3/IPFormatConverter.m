@@ -9,21 +9,17 @@
 
     NSMutableArray *ipNumbers = [NSMutableArray arrayWithCapacity:4];
 
-    for (int i = 0; i <= 3; i++) {
-        if (numbersArray.count > i) {
-            int number = [numbersArray[i] intValue];
+    for (int index = 0; index <= 3; index++) {
+        int number = (numbersArray.count > index) ? [numbersArray[index] intValue] : 0;
 
-            if (number < 0) {
-                return @"Negative numbers are not valid for input.";
-            }
-            if (number > 255) {
-                return @"The numbers in the input array can be in the range from 0 to 255.";
-            }
-
-            [ipNumbers addObject:@(number).stringValue];
-        } else {
-            [ipNumbers addObject:@"0"];
+        if (number < 0) {
+            return @"Negative numbers are not valid for input.";
         }
+        if (number > 255) {
+            return @"The numbers in the input array can be in the range from 0 to 255.";
+        }
+
+        [ipNumbers addObject:@(number).stringValue];
     }
 
     return [ipNumbers componentsJoinedByString:@"."];
