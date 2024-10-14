@@ -3,7 +3,7 @@
 @implementation TwoDimensionalArraySorter
 
 - (NSArray *)twoDimensionalSort:(NSArray<NSArray *> *)array {
-    if (!array) {
+    if (!array.count) {
         return @[];
     }
 
@@ -28,9 +28,6 @@
         }
     }
 
-    NSArray *sortedStrings = [strings sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        return [obj1 compare:obj2];
-    }];
     NSArray *sortedNumbers = [numbers sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
         return [obj1 compare:obj2];
     }];
@@ -38,12 +35,16 @@
     NSMutableArray *finalArray = [NSMutableArray array];
 
     if ((numbers.count == 0) && (strings.count != 0)) {
-        [finalArray addObjectsFromArray:sortedStrings];
+        [finalArray addObjectsFromArray:[strings sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
+            return [obj1 compare:obj2];
+        }]];
     } else if ((numbers.count != 0) && (strings.count == 0)) {
         [finalArray addObjectsFromArray:sortedNumbers];
     } else {
-        [finalArray addObject:numbers];
-        [finalArray addObject:strings];
+        [finalArray addObject:sortedNumbers];
+        [finalArray addObject:[strings sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
+            return [obj2 compare:obj1];
+        }]];
     }
 
     return [finalArray copy];
